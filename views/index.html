@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Node.js upload & resize multiple files</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" />
+    <style>
+      div.previewImages > img {
+        width: 30%;
+        margin-left: 10px;
+      }
+      h3{
+        font-family: "Roboto", sans-serif;
+               font-size: 26px;
+              line-height: 1;
+             color: blue;
+             margin-bottom: 10px;
+      }
+      .upload{
+        display: block;
+         clear: both;
+          margin: 0 auto;
+          width: 100%;
+          max-width: 600px;
+      }
+      .form-control-file{
+        float: left;
+    clear: both;
+    width: 100%;
+    padding: 2rem 1.5rem;
+    text-align: center;
+    background: #fff;
+    border-radius: 7px;
+    border: 3px solid #eee;
+    transition: all .2s ease;
+    user-select: none;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <div class="row">
+        <div class="col-sm-8 mt-3">
+          <h3>Node.js upload & resize multiple images - The Heart Coder </h3>
+
+          <form class="upload"
+            action="/multiple-upload"
+            method="POST"
+            enctype="multipart/form-data"
+          >
+            <input
+              type="file"
+              name="images"
+              multiple
+              id="imageInput"
+              class="form-control-file"
+            />
+            <button type="submit" class="btn btn-primary mt-2">Submit</button>
+          </form>
+        </div>
+      </div>
+      <hr />
+      <div class="row">
+        <div class="col-sm-12">
+          <div class="previewImages"></div>
+        </div>
+      </div>
+    </div>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.bundle.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+    <script>
+        $(document).ready(function() {
+          let imgPreview = function(input, imgaePlace) {
+            if (input.files) {
+              let allFiles = input.files.length;
+              for (i = 0; i < allFiles; i++) {
+                let reader = new FileReader();
+                reader.onload = function(event) {
+                  $($.parseHTML("<img>"))
+                    .attr("src", event.target.result)
+                    .appendTo(imgaePlace);
+                };
+                reader.readAsDataURL(input.files[i]);
+              }
+            }
+          };
+          $("#imageInput").on("change", function() {
+            imgPreview(this, "div.previewImages");
+          });
+        });
+      </script>
+  </body>
+</html>    
